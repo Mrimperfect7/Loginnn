@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login & Register | Dream Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+    body{
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:#0a1a2f;
+      overflow:hidden;
+    }
+
+    /* Blueprint grid background */
+    body::before{
+      content:"";
+      position:absolute;
+      top:0;left:0;
+      width:100%;height:100%;
+      background-image:linear-gradient(rgba(255,255,255,0.05) 1px,transparent 1px),
+                       linear-gradient(90deg,rgba(255,255,255,0.05) 1px,transparent 1px);
+      background-size:40px 40px;
+      z-index:0;
+    }
+
+    /* SVG House Plan */
+    svg{
+      position:absolute;
+      top:50%;left:50%;
+      transform:translate(-50%,-50%) scale(1.2);
+      width:600px;
+      height:400px;
+      stroke:#00e0ff;
+      stroke-width:3;
+      fill:none;
+      z-index:0;
+      opacity:0.6;
+    }
+    path{
+      stroke-dasharray:1000;
+      stroke-dashoffset:1000;
+      animation:draw 6s linear forwards infinite alternate;
+    }
+    @keyframes draw{
+      to{stroke-dashoffset:0;}
+    }
+
+    /* Floating construction icons */
+    .icons{
+      position:absolute;
+      top:0;left:0;
+      width:100%;height:100%;
+      pointer-events:none;
+      z-index:0;
+    }
+    .icons i{
+      position:absolute;
+      color:#ffcc00;
+      font-size:20px;
+      opacity:0.8;
+      animation:floatIcons 12s linear infinite;
+    }
+    .icons i:nth-child(1){left:20%;animation-duration:14s;}
+    .icons i:nth-child(2){left:50%;animation-duration:16s;}
+    .icons i:nth-child(3){left:70%;animation-duration:18s;}
+    .icons i:nth-child(4){left:35%;animation-duration:20s;}
+    @keyframes floatIcons{
+      0%{top:110%;opacity:0;}
+      30%{opacity:1;}
+      70%{opacity:1;}
+      100%{top:-10%;opacity:0;}
+    }
+
+    /* Glassmorphism Login/Register Card */
+    .container{
+      width:350px;
+      padding:40px;
+      background:rgba(255,255,255,0.1);
+      border-radius:15px;
+      backdrop-filter:blur(12px);
+      box-shadow:0 8px 25px rgba(0,0,0,0.4);
+      text-align:center;
+      position:relative;
+      z-index:1;
+      overflow:hidden;
+      transition:transform 0.3s ease;
+    }
+    .container:hover{transform:scale(1.02);}
+    .container h2{
+      color:#fff;
+      margin-bottom:20px;
+      font-weight:600;
+    }
+    .input-box{
+      position:relative;
+      margin:15px 0;
+    }
+    .input-box input{
+      width:100%;
+      padding:12px 40px 12px 15px;
+      border:none;
+      outline:none;
+      border-radius:8px;
+      background:rgba(255,255,255,0.2);
+      color:#fff;
+      font-size:14px;
+    }
+    .input-box input::placeholder{color:rgba(255,255,255,0.7);}
+    .input-box .eye{
+      position:absolute;
+      right:10px;top:50%;
+      transform:translateY(-50%);
+      cursor:pointer;
+      color:#fff;
+      font-size:16px;
+    }
+    button{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:8px;
+      background:#ff416c;
+      color:#fff;
+      font-size:16px;
+      cursor:pointer;
+      transition:0.3s;
+      margin-top:10px;
+      box-shadow:0 0 10px rgba(255,65,108,0.6);
+    }
+    button:hover{
+      background:#ff4b2b;
+      box-shadow:0 0 20px rgba(255,65,108,1);
+    }
+    .toggle-link{
+      margin-top:15px;
+      color:#fff;
+      font-size:13px;
+      cursor:pointer;
+      display:inline-block;
+    }
+
+    /* Forms */
+    .form{
+      transition:transform 0.6s ease,opacity 0.6s ease;
+    }
+    .form.hidden{
+      opacity:0;
+      transform:translateX(100%);
+      position:absolute;
+      top:0;left:0;width:100%;
+    }
+    .form.active{
+      opacity:1;
+      transform:translateX(0);
+      position:relative;
+    }
+
+    /* Shake animation */
+    .shake{animation:shake 0.4s;}
+    @keyframes shake{
+      0%{transform:translateX(0);}
+      25%{transform:translateX(-5px);}
+      50%{transform:translateX(5px);}
+      75%{transform:translateX(-5px);}
+      100%{transform:translateX(0);}
+    }
+
+    /* Responsive */
+    @media(max-width:420px){
+      .container{width:90%;padding:30px;}
+      svg{width:350px;height:250px;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SVG House Plan Background -->
+  <svg viewBox="0 0 600 400">
+    <path d="M100 300 L100 200 L300 100 L500 200 L500 300 Z" /> <!-- House walls -->
+    <path d="M200 300 L200 220 L280 180 L360 220 L360 300 Z" /> <!-- Door -->
+    <path d="M380 220 L460 220 L460 280 L380 280 Z" /> <!-- Window -->
+  </svg>
+
+  <!-- Floating construction icons -->
+  <div class="icons">
+    <i class="fa-solid fa-hammer"></i>
+    <i class="fa-solid fa-bricks"></i>
+    <i class="fa-solid fa-door-closed"></i>
+    <i class="fa-solid fa-ruler-combined"></i>
+  </div>
+
+  <!-- Login/Register Card -->
+  <div class="container">
+    <!-- Login Form -->
+    <div id="loginForm" class="form active">
+      <h2>Login</h2>
+      <div class="input-box">
+        <input type="email" placeholder="Email">
+      </div>
+      <div class="input-box">
+        <input type="password" id="loginPass" placeholder="Password">
+        <i class="fa-solid fa-eye eye" onclick="togglePass('loginPass',this)"></i>
+      </div>
+      <button onclick="validate('loginForm')">Login</button>
+      <div class="toggle-link" onclick="switchForm('registerForm')">Don’t have an account? Register</div>
+    </div>
+
+    <!-- Register Form -->
+    <div id="registerForm" class="form hidden">
+      <h2>Register</h2>
+      <div class="input-box">
+        <input type="text" placeholder="Full Name">
+      </div>
+      <div class="input-box">
+        <input type="email" placeholder="Email">
+      </div>
+      <div class="input-box">
+        <input type="password" id="regPass" placeholder="Password">
+        <i class="fa-solid fa-eye eye" onclick="togglePass('regPass',this)"></i>
+      </div>
+      <button onclick="validate('registerForm')">Register</button>
+      <div class="toggle-link" onclick="switchForm('loginForm')">Already have an account? Login</div>
+    </div>
+  </div>
+
+  <script>
+    function switchForm(formId){
+      document.querySelectorAll('.form').forEach(f=>{
+        f.classList.add('hidden');
+        f.classList.remove('active');
+      });
+      document.getElementById(formId).classList.remove('hidden');
+      document.getElementById(formId).classList.add('active');
+    }
+
+    function togglePass(id,el){
+      const input=document.getElementById(id);
+      if(input.type==="password"){
+        input.type="text";
+        el.classList.remove("fa-eye");
+        el.classList.add("fa-eye-slash");
+      }else{
+        input.type="password";
+        el.classList.remove("fa-eye-slash");
+        el.classList.add("fa-eye");
+      }
+    }
+
+    function validate(formId){
+      const form=document.getElementById(formId);
+      let inputs=form.querySelectorAll("input");
+      let valid=true;
+      inputs.forEach(inp=>{
+        if(inp.value.trim()===""){valid=false;}
+      });
+      if(!valid){
+        form.classList.add("shake");
+        setTimeout(()=>form.classList.remove("shake"),400);
+      }
+    }
+  </script>
+</body>
+</html>
